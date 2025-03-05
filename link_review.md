@@ -4,7 +4,7 @@
 - additional papers for specific methods and/or proofs
 
 | Topic | Title | Year | Authors | Paper | Summary |
-| :--- | :--- | ---: | :--- | :--- | :--- | :--- |
+| :--- | :--- | ---: | :--- | :--- | :--- |
 | Key article 1 | Sign Operator for Coping with Heavy-Tailed Noise | 2025 | Kornilov et al. | [arXiv](https://arxiv.org/abs/2502.07923) | Proofs for heavy-tailed noise |
 | Key article 2 | signSGD: Compressed Optimisation for Non-Convex Problems | 2018 | J. Bernstein et al. | [PMLR](https://proceedings.mlr.press/v80/bernstein18a.html) | 3 Sign-based methods |
 | Key article 3 | Methods for Convex (L0,L1)-Smooth Optimization: Clipping, Acceleration, and Adaptivity | 2024 | Gorbunov et al. | [arXiv](https://arxiv.org/abs/2409.14989) | New convergence guarantees for existing methods |
