@@ -1,0 +1,59 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{unicode-math}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{a4wide}
+\bibliographystyle{unsrt}
+\usepackage{biblatex}
+\usepackage{import}
+\bibliography{draft.bib}
+
+
+% Comments for co-authors (optional)
+\newcommand{\coauthorcomment}[2]{{\color{#1} \textbf{#2}}}
+
+% Title and author information
+\title{Sign operator for $(L_0, L_1)$-smooth optimization}
+
+\author{
+  Mark Ikonnikov\\
+  \texttt{ikonnikov.mi@phystech.edu}
+  \and
+  Nikita Kornilov\\
+  \texttt{kornilov.nm@phystech.edu}
+}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+In Machine Learning, the non-smoothness of optimization problems, the high cost of communicating gradients between workers, and severely corrupted data during training necessitate generalized optimization approaches. This paper explores the efficacy of sign-based methods~\cite{pmlr-v80-bernstein18a}, which address slow transmission by communicating only the sign of each minibatch stochastic gradient. We investigate these methods within $(L_0, L_1)$-smooth problems~\cite{gorbunov}, which encompass a wider range of problems than the $L$-smoothness assumption. Furthermore, under the assumptions above, we investigate techniques to handle heavy-tailed noise~\cite{Kornilov2025}, defined as noise with bounded $\kappa$-th moment $\kappa \in (1,2]$. This includes the use of SignSGD with Majority Voting in the case of symmetric noise. We then attempt to extend the findings to convex cases using error feedback~\cite{karimireddy}.
+\end{abstract}
+
+\paragraph{Keywords:} Sign-based methods, $(L_0, L_1)$-smoothness, high-probability convergence, heavy-tailed noise.
+
+\paragraph{ Highlights below to be fixed later (these are our hopes for the paper)}
+
+\paragraph{ Highlights:}
+\begin{enumerate}
+\item Proves convergence of sign-based methods for $(L_0, L_1)$-smooth optimization
+\item Handles heavy-tailed noise with high-probability convergence guarantees
+\item Extends sign-based optimization to convex functions using error feedback
+\end{enumerate}
+
+\section{Introduction}
+
+
+\import{./}{intro}
+
+
+\printbibliography
+
+\end{document}

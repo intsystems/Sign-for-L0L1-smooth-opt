@@ -1,0 +1,40 @@
+The object of this research is the stochastic optimization of a smooth, non-convex function $f: \mathbb{R}^d \to \mathbb{R}$, defined as $f(x) = \mathbb{E}_{\xi \sim \mathcal{S}} [f(x, \xi)]$, where $\xi$ is a random variable sampled from an unknown distribution $\mathcal{S}$. In machine learning, $f(x, \xi)$ typically represents a loss function evaluated on a sample $\xi$, and the gradient oracle provides unbiased estimates $\nabla f(x, \xi)$.
+The most popular approach for solving \eqref{eq: min problem} is Stochastic Gradient Descent:
+\begin{equation}
+    x^{k+1} = x^k - \gamma_k \cdot  g^k, \quad g^k := \nabla f (x^k, \xi^k). \notag \label{eq: sgd intro}
+\end{equation}
+For non-convex functions, the main goal of stochastic optimization is to find a point with small gradient norm. Traditional optimization often assumes $L$-smoothness (Lipschitz continuity of the gradient), but this is often restrictive for real-world deep learning models like Transformers. Instead, we adopt the $(L_0, L_1)$-smoothness condition~\cite{gorbunov}, where:
+
+\[
+\|\nabla f(x) - \nabla f(y)\| \leq \left(L_0 + L_1 \sup_{u \in [x,y]} \|\nabla f(u)\|\right) \|x - y\|,
+\]
+
+allowing for a broader class of functions encountered in practice.
+
+A key challenge is the communication bottleneck in distributed machine learning, where gradients are exchanged between workers and a parameter server. For large-scale neural networks, this process is computationally expensive. Sign-based methods, such as SignSGD~\cite{pmlr-v80-bernstein18a}, compress gradients by transmitting only their signs, reducing communication to one bit per parameter. However, their convergence under non-smooth conditions and heavy-tailed noise—where noise has a bounded $\kappa$-th moment for $\kappa \in (1,2]$~\cite{Kornilov2025}—remains underexplored. This noise, prevalent in modern datasets, can destabilize optimization, necessitating robust techniques.
+
+Our methodology builds on a literature review of stochastic optimization, including Stochastic Gradient Descent (SGD), sign-based methods~\cite{pmlr-v80-bernstein18a}, and recent advances in heavy-tailed noise~\cite{Kornilov2025}. We also leverage error feedback mechanisms~\cite{karimireddy} to extend these methods to convex problems. The project tasks are:
+
+\begin{enumerate}
+    \item Investigate sign-based methods for communication-efficient distributed optimization under the assumptions above.
+    \item Develop high-probability convergence guarantees accounting for generalized conditions.
+    \item Extend findings to convex optimization via error feedback technique.
+\end{enumerate}
+
+The proposed solution is a sign-based optimization framework for $(L_0, L_1)$-smooth functions, robust to heavy-tailed noise. Its novelty lies in providing convergence guarantees under generalized smoothness conditions and handling heavy-tailed noise with high-probability bounds. Advantages include reduced communication costs, robustness to noise, and flexibility for non-smooth problems. Recent works like Bernstein et al.~\cite{pmlr-v80-bernstein18a} offer communication savings but assume standard smoothness, while Gorbunov et al.~\cite{gorbunov} focus on $(L_0, L_1)$-smoothness without sign-based compression. Kornilov et al.~\cite{Kornilov2025} tackle heavy-tailed noise but not communication efficiency. Our work unifies these aspects.
+
+The experimental goals are to validate convergence under $(L_0, L_1)$-smoothness and heavy-tailed noise. The setup includes synthetic datasets satisfying $(L_0, L_1)$-smoothness, real-world datasets with heavy-tailed noise, non-convex neural networks, and convex logistic regression models. The workflow compares sign-based SGD (with/without error feedback) against traditional SGD and other compression methods, measuring convergence rates and communication costs.
+
+The nearest alternative to our reaserch is Bernstein et al.~\cite{pmlr-v80-bernstein18a}. Our advantage is the extension to $(L_0, L_1)$-smoothness and robustness to heavy-tailed noise, with the distinguished characteristic of high-probability convergence bounds. Thus, the paper proposes a sign-based optimization method for $(L_0, L_1)$-smooth non-convex problems, providing communication efficiency and robustness to heavy-tailed noise, distinguished by high-probability convergence guarantees.
+
+\subsection*{Problem Statement}
+
+We consider the stochastic optimization problem of minimizing a smooth, non-convex function $f: \mathbb{R}^d \to \mathbb{R}$:
+
+\[
+\min_{x \in \mathbb{R}^d} f(x) := \mathbb{E}_{\xi \sim \mathcal{S}} [f(x, \xi)],
+\]
+
+where $\xi$ is a random variable sampled from an unknown distribution $\mathcal{S}$, and the gradient oracle provides an unbiased estimate $\nabla f(x, \xi) \in \mathbb{R}^d$. In machine learning, $f(x, \xi)$ represents the loss on a sample $\xi$, and the goal is to find a point $x^*$ with a small gradient norm, i.e., $\|\nabla f(x^*)\| \leq \epsilon$, especially for non-convex objectives.
+
+The samples $\xi$ are drawn from $\mathcal{S}$, representing data points (e.g., images, text) in a machine learning task. The data originates from real-world or synthetic sources, with the statistical hypothesis that gradients $\nabla f(x, \xi)$ exhibit heavy-tailed noise, i.e., $\mathbb{E}_{\xi} [\|\nabla f(x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$ for $\kappa \in (1,2]$. The model is a parameterized function (e.g., neural network) with parameters $x \in \mathbb{R}^d$, within the class of $(L_0, L_1)$-smooth functions, satisfying symmetric $(L_0, L_1)$-smoothness, relaxing traditional $L$-smoothness. The objective $f(x)$ is the expected loss, with $f(x, \xi)$ as the sample-wise loss (e.g., cross-entropy). Convergence is measured by the gradient norm, with high-probability bounds (probability $\geq 1 - \delta$, $\delta \in (0,1)$). Solutions are unconstrained in $\mathbb{R}^d$, but we seek robustness to noise and communication efficiency. In distributed settings, we prioritize low communication costs (bits transmitted per iteration).
