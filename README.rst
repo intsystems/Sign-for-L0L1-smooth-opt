@@ -27,15 +27,12 @@ Abstract
 In Machine Learning, the non-smoothness of optimization problems, the high cost of communicating gradients between workers, and severely corrupted data during training necessitate generalized optimization approaches. This paper explores the efficacy of sign-based methods, which address slow transmission by communicating only the sign of each minibatch stochastic gradient. We investigate these methods within $(L_0, L_1)$-smooth problems, which encompass a wider range of problems than the $L$-smoothness assumption. Furthermore, under the assumptions above, we investigate techniques to handle heavy-tailed noise, defined as noise with bounded $\kappa$-th moment $\kappa \in (1,2]$. This includes the use of SignSGD with Majority Voting in the case of symmetric noise. We then attempt to extend the findings to convex cases using error feedback.
 
 
-Research publications
-===============================
-1. TODO
-
 Presentations at conferences on the topic of research
-================================================
-1. TODO
+===============================
+The paper is the part of the larger collective research work. The findings are projected to be submitted to NIPS_2025 conference.
+
 
 Software modules developed as part of the study
 ======================================================
 1. A python package *mylib* with all implementation `will be here <https://github.com/intsystems/ProjectTemplate/tree/master/src>`_.
-2. A code with all experiment visualisation ` will be here <https://github.com/intsystems/Sign-for-L0L1-smooth-opt/blob/master/code/main.ipynb>`_.
+2. A code with all experiment visualisation `will be here <https://github.com/intsystems/Sign-for-L0L1-smooth-opt/blob/master/code/main.ipynb>`_.
