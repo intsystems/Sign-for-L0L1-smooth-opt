@@ -35,4 +35,4 @@ The paper is the part of the larger collective research work. The findings are p
 Software modules developed as part of the study
 ======================================================
 1. A python package *mylib* with all implementation `will be here <https://github.com/intsystems/ProjectTemplate/tree/master/src>`_.
-2. A code with all experiment visualisation `will be here <https://github.com/intsystems/Sign-for-L0L1-smooth-opt/blob/master/code/main.ipynb>`_.
+2. A code with all experiment visualisation `is here <https://github.com/intsystems/Sign-for-L0L1-smooth-opt/blob/master/code/main.ipynb>`_.
