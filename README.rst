@@ -30,16 +30,17 @@ In Machine Learning, the non-smoothness of optimization problems, the high cost 
 Problem Statement
 ========
 
-A function $f : \mathbb{R}^d \to \mathbb{R}$ is said to be \textit{$(L_0, L_1)$-smooth} if
-\[
-\|\nabla f(x) - \nabla f(y)\| \leq (L_0 + L_1 \sup_{u \in [x,y]} \|\nabla f(u)\|) \|x - y\|.
-\]
-This generalizes classical $L$-smoothness and captures many practical functions that appear in deep learning.
 
-The noise model assumes that the stochastic gradients $\nabla f(x, \xi)$ have bounded $\kappa$-th moment:
-\[
-\mathbb{E}_\xi [|\nabla f(x, \xi)_i - \nabla f(x)_i|^\kappa] \leq \sigma_i^\kappa, \quad \text{for all } i \in [d], \quad \kappa \in (1,2].
-\]
+ We prove that for $x' = x - \gamma A \cdot \sign(m)$ where $m = \nabla f(x) + \epsilon$, and diagonal matrix $A$, the following holds:
+    $$
+    f(x') - f(x) \leq -\gamma \|A \nabla f(x)\|_1 + 2\gamma \|A\|_F \|\epsilon\|_2 + \frac{L_0 + L_1 \|\nabla f(x)\|_2}{2} e^{\gamma L_1 \|A\|_F} \gamma^2 \|A\|_F^2.
+    $$
+
+with probability $1 - \delta$ with $ \varepsilon$ small enough, sample complexity to reach $\mathbb{E}\|\nabla f(x^k)\|_1 \leq \varepsilon$ is
+    \[
+    N = O\left( \frac{\Delta_1 L_0^\delta d} {\varepsilon^2} \left(1 + \left( \frac{\|\vec{\sigma}\|_1}{\varepsilon} \right)^{\frac{\kappa}{\kappa - 1}} \right) \right).
+    \]
+
 
 Presentations at conferences on the topic of research
 ===============================
