@@ -30,21 +30,21 @@ In Machine Learning, the non-smoothness of optimization problems, the high cost 
 Problem Statement
 ========
 
+The object of this research is the stochastic optimization of a smooth, non-convex function. Traditional optimization often assumes $L$-smoothness (Lipschitz continuity of the gradient), but this may appear to be restrictive for real-world deep learning models like Transformers. Instead, we adopt the $(L_0, L_1)$-smoothness condition allowing for a broader class of functions encountered in practice. 
 
- We prove that for $x' = x - \gamma A \cdot \sign(m)$ where $m = \nabla f(x) + \epsilon$, and diagonal matrix $A$, the following holds:
-    $$
-    f(x') - f(x) \leq -\gamma \|A \nabla f(x)\|_1 + 2\gamma \|A\|_F \|\epsilon\|_2 + \frac{L_0 + L_1 \|\nabla f(x)\|_2}{2} e^{\gamma L_1 \|A\|_F} \gamma^2 \|A\|_F^2.
-    $$
+Contributions
+========
+In this paper we:
 
-with probability $1 - \delta$ with $ \varepsilon$ small enough, sample complexity to reach $\mathbb{E}\|\nabla f(x^k)\|_1 \leq \varepsilon$ is
-    \[
-    N = O\left( \frac{\Delta_1 L_0^\delta d} {\varepsilon^2} \left(1 + \left( \frac{\|\vec{\sigma}\|_1}{\varepsilon} \right)^{\frac{\kappa}{\kappa - 1}} \right) \right).
-    \]
+     Investigated sign-based methods for communication-efficient distributed optimization under the assumptions above.
+     Developed high-probability convergence guarantees accounting for generalized conditions.
+
+The experimental goals are to validate convergence under $(L_0, L_1)$-smoothness and heavy-tailed noise. The setup includes real-world datasets datasets satisfying $(L_0, L_1)$-smoothness with synthetic heavy-tailed noise and convex logistic regression models. The workflow compares sign-based methods against traditional methods, measuring convergence rates and including different accuracy scorings.
 
 
 Presentations at conferences on the topic of research
 ===============================
-The paper is the part of the larger collective research work. The findings are projected to be submitted to NIPS_2025 conference.
+The paper is the part of the larger collective research work. The findings are submitted to NIPS_2025 conference.
 
 
 Software modules developed as part of the study
