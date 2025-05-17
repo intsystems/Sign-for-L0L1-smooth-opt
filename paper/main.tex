@@ -41,6 +41,8 @@
   \and
   Nikita Kornilov\\
   \texttt{kornilov.nm@phystech.edu}
+  \and Aleksandr Beznosikov\\
+  \texttt{beznosikov.an@phystech.edu}
 }
 
 \date{\today}
@@ -66,7 +68,7 @@ In Machine Learning, the non-smoothness of optimization problems, the high cost 
 \section{Introduction}
 A key challenge is the communication bottleneck in distributed machine learning, where gradients are exchanged between workers and a parameter server. For large-scale neural networks, this process is computationally expensive. Sign-based methods, such as SignSGD \cite{pmlr-v80-bernstein18a}, compress gradients by transmitting only their signs, reducing communication to one bit per parameter. 
 
-Originally, \textsc{SignSGD} was proposed by Bernstein et.al (\cite{pmlr-v80-bernstein18a}) as a communication-efficient alternative to SGD, offering convergence for non-convex problems by transmitting only the sign of gradients. In the paper it is proved that \textit{SignSGD}can get the best of both worlds: compressed gradients and SGD-level convergence rate. Majority vote aggregation enables 1-bit communication per worker and maintains variance reduction comparable to full-precision distributed SGD. The research for the majority vote method was conducted under the assumption on noise, i.e. noise in each component of the stochastic gradient is unimodal and symmetric about the mean (e.g. Gaussian).  
+Originally, \textsc{SignSGD} was proposed by Bernstein et.al (\cite{pmlr-v80-bernstein18a}) as a communication-efficient alternative to SGD, offering convergence for non-convex problems by transmitting only the sign of gradients. In the paper it is proved that \textit{SignSGD} can get the best of both worlds: compressed gradients and SGD-level convergence rate. Majority vote aggregation enables 1-bit communication per worker and maintains variance reduction comparable to full-precision distributed SGD. The research for the majority vote method was conducted under the assumption on noise, i.e. noise in each component of the stochastic gradient is unimodal and symmetric about the mean (e.g. Gaussian).  
 
 Recent advancements have deepened the theoretical understanding of \textit{sign-based optimization methods} under heavy-tailed noise conditions. In their high-probability analysis, Kornilov et. al.(\cite{Kornilov2025}) introduce convergence guarantees for \textsc{SignSGD, Majority vote SignSGD and M-SignSGD} under heavy-tailed stochastic noise and $L$-smoothness, assuming only a bounded $\kappa$-th moment for $\kappa \in (1,2]$. Their results extend to distributed optimization and the comparison oracle setting, highlighting the robustness of sign-based updates in non-ideal regimes. The results demonstrate that SignSGD achieves optimal sample complexity $\tilde{O}~\left(\varepsilon^\frac{−3k-2}{k−1}\right)$ with high probability for attaining an average gradient norm accuracy of $\varepsilon$. Under HT conditions the upper bound ${O}\left(\varepsilon^\frac{−3k-2}{k−1}\right)$ for convergence of M-SignSGD is provided.
 
@@ -84,7 +86,7 @@ In this project, we:
 
 The experimental goals are to validate convergence under $(L_0, L_1)$-smoothness and heavy-tailed noise. The setup includes real-world datasets datasets satisfying $(L_0, L_1)$-smoothness with synthetic heavy-tailed noise and convex logistic regression models. The workflow compares sign-based methods against traditional methods, measuring convergence rates and including different accuracy scorings.
 
-The nearest alternative to our reasearch is Gorbunov et. al. (\cite{gorbunov}). Our advantage is the extension to $(L_0, L_1)$-smoothness while maintaining heavy-tailed noise, with the distinguished characteristic of high-probability convergence bounds. Thus, the paper proposes a sign-based optimization method for $(L_0, L_1)$-smooth non-convex problems, providing communication efficiency and robustness to heavy-tailed noise, distinguished by high-probability convergence guarantees.
+The nearest alternative to our research is Gorbunov et. al. (\cite{gorbunov}). Our advantage is the extension to $(L_0, L_1)$-smoothness while maintaining heavy-tailed noise, with the distinguished characteristic of high-probability convergence bounds. Thus, the paper proposes a sign-based optimization method for $(L_0, L_1)$-smooth non-convex problems, providing communication efficiency and robustness to heavy-tailed noise, distinguished by high-probability convergence guarantees.
 
 \subsection*{Problem Statement}
 
@@ -149,8 +151,7 @@ We begin our analysis by presenting the simplest of sign-based methods, namely \
 \STATE Sample $\xi^k$ and compute estimate $g^k =     \nabla f(x^k, \xi^k)$;
 \STATE  Set $x^{k+1} = x^k - \gamma_k \cdot     \sign(g^k)$;
 \ENDFOR
-\ENSURE
-uniformly random point from $\{x^1, \dots, x^T\}$ . 
+\ENSURE uniformly random point from $\{x^1, \dots, x^T\}$ . 
 \end{algorithmic}
 \end{algorithm}
 
@@ -181,7 +182,7 @@ Consider lower-bounded $(L_0,L_1)$-smooth function $f$ (As. \ref{as: bounded}, \
 
 \textbf{Case $\varepsilon \geq  \frac{8L_0}{cL_1\sqrt{d}}$:}  $T = O\left(\frac{c\Delta_1L^\delta_1 d^\frac{3}{2} }{\varepsilon}\right), \gamma_k \equiv \frac{1}{48c L_1^\delta d^\frac32} , B_k \equiv \max \left\{1, \left(\frac{16\|\Vec{\sigma}\|_1}{\varepsilon}\right)^\frac{\kappa}{\kappa-1}\right\}:$
 \begin{eqnarray}
-    \varepsilon &\geq&   \frac{8L_0}{cL_1\sqrt{d}} \quad \Rightarrow \quad N = O\left(\frac{c\Delta_1 L_1^\delta   d^\frac{3}{2}}{\varepsilon}\left[1 +  \left(\frac{\|\Vec{\sigma}\|_1}{\varepsilon}\right)^\frac{\kappa}{\kappa-1}\right]\right), \quad c \geq 1 \notag 
+    \varepsilon &\geq&   \frac{8L_0}{cL_1\sqrt{d}} \quad \Rightarrow \quad N = O\left(\frac{c\Delta_1 L_1^\delta   d^\frac{3}{2}}{\varepsilon}\left[1 +  \left(\frac{\|\Vec{\sigma}\|_1}{\varepsilon}\right)^\frac{\kappa}{\kappa-1}\right]\right), \quad \color{red} c \geq 1 \notag 
 \end{eqnarray}
 \textbf{Case $\varepsilon <  \frac{8L_0}{L_1\sqrt{d}}$:} $T = O\left(\frac{\Delta_1L_0^\delta d }{\varepsilon^2}\right), \gamma_k \equiv \sqrt{\frac{\Delta_1}{20 L_0^\delta dT}} , B_k \equiv \max \left\{1, \left(\frac{16\|\Vec{\sigma}\|_1}{\varepsilon}\right)^\frac{\kappa}{\kappa-1}\right\}:$ 
 \begin{equation}
@@ -218,7 +219,7 @@ Consider lower-bounded $(L_0,L_1)$-smooth function $f$ (As. \ref{as: bounded}, \
 
 \textbf{Case $\varepsilon \geq \frac{3L_0}{cL_1}$:} $\beta_k \equiv 1 - \min\left\{1, \left(\frac{c\Delta_1 L_1 \sqrt{d}}{T \|\Vec{\sigma}\|_\kappa}\right)^\frac{\kappa}{2\kappa - 1}\right\}, \gamma_k  \equiv \frac{1 - \beta}{8c} \frac{1}{L_1d}$ 
 \begin{equation}
-     T = O\left(\frac{c\Delta_1L_1d}{\varepsilon } \left(1 + \left(\frac{\sqrt{d}\|\Vec{\sigma}\|_\kappa}{\varepsilon}\right)^\frac{\kappa }{\kappa  -1}\right)\right), \quad c \geq 1,
+     T = O\left(\frac{\Delta_1L_1d}{\varepsilon } \left(1 + \left(\frac{\sqrt{d}\|\Vec{\sigma}\|_\kappa}{\varepsilon}\right)^\frac{\kappa }{\kappa  -1}\right)\right), \quad
 \end{equation}
 \textbf{Case $\varepsilon < \frac{3L_0}{L_1}$:} $1  - \beta_k \equiv   1 - \min\left\{1, \left(\frac{\Delta_1 L_0}{T \|\Vec{\sigma}\|_\kappa^2}\right)^\frac{\kappa}{3\kappa - 2}  \right\}, \gamma_k  \equiv \sqrt{\frac{\Delta_1 (1 - \beta_k)}{T L_0 d}}$ 
 \begin{equation}
@@ -234,7 +235,7 @@ where $\Delta_1 = f(x^1) - f^*$.
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{basic_experiment2.png}
-        \caption{GD and SignGD with $L_1$-tuned step size.}
+        \caption{GD and SignSGD with $L_1$-tuned step size.}
         \label{fig:logreg}
     \end{subfigure}
     \hfill
@@ -244,17 +245,18 @@ where $\Delta_1 = f(x^1) - f^*$.
         \caption{ Momentum SGD  and M-SignGD with $L_1$-tuned step size.}
         \label{fig:msign}
     \end{subfigure}
-    \caption{Logistic regression on Mushroom Dataset.\newline Comparison of Sign-based optimization methods.}
+    \centering
+    \caption{Logistic regression on Mushroom Dataset.\newline Comparison of Sign-based optimization methods. }
     \label{fig:comparison}
 \end{figure}
-The computational experiment aims to compare the performance of standard gradient descent (GD) and sign-based gradient descent (Sign-GD) in training a logistic regression model, highlighting the advantages of sign-based methods under $L_0, L_1$ smoothness assumptions. Performance will be evaluated based on accuracy and iteration number, with minimal tuning to emphasize simplicity.
 
+The computational experiment aims to compare the performance of standard gradient descent (GD) and sign-based gradient descent (Sign-GD) in training a logistic regression model, highlighting the advantages of sign-based methods under $L_0, L_1$ smoothness assumptions. Performance will be evaluated based on accuracy and iteration number, with minimal tuning to emphasize simplicity.
 \begin{table}[H]
 \centering
 \caption{Loss Comparison of Optimization Methods}
 \begin{tabular}{lccc}
 \toprule
-\textbf{Method} & \textbf{Mean Loss} & \textbf{Loss Variance} & \textbf{Convergence Rate} \\
+\textbf{Method} & \textbf{Mean Loss} & \textbf{ Sigma, gamma, Loss Variance} & \textbf{Convergence Rate} \\
 \midrule
 M-SignSGD & 3.6366 & 73.5606 & 0.0537 \\
 M-SGD     & 7.7299 & 209.4682 & 0.1289 \\
@@ -288,7 +290,7 @@ The idea is based on the fact that logistic regression function $l(z,y) = \ln (1
 \printbibliography
 
 \newpage
-\section{Proofs}
+\section{Proofs}\label{app:proofs}
 
 \begin{proposition}[Norm Relation]
     For two norms $ \ell_p$ and $\ell_q$ with $\ 1 \leq p \leq q \leq 2$, the following relation holds true:
@@ -345,7 +347,7 @@ with $\epsilon := m - \nabla f(x)$, the following inequality holds true
 \end{equation}
 \end{lemma}
 
-\begin{proof}
+\begin{proof}[Proof of Theorem]
     Consider the $k$-th step of \algname{SignSGD}. We use $(L_0, L_1)$ smoothness of function $f$ (Lemma \ref{lem: L_0,L_1 smoothness}) to estimate:
     \begin{eqnarray}
         f(x^{k+1}) - f(x^k) &\leq& \la \nabla f (x^k), x^{k+1} - x^k \ra + \frac{L_0 + L_1\|\nabla f(x^k)\|_2 }{2}\exp(L_1\|x^{k+1} - x^k\|_2)\|x^{k+1} - x^k\|_2^2 \notag \\
