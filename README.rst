@@ -49,5 +49,5 @@ The paper is the part of the larger collective research work. The findings are s
 
 Software modules developed as part of the study
 ======================================================
-1. A python package *mylib* with all implementation `will be here <https://github.com/intsystems/ProjectTemplate/tree/master/src>`_.
-2. A code with all experiment visualisation `is here <https://github.com/intsystems/Sign-for-L0L1-smooth-opt/blob/master/code/main.ipynb>`_.
+The papers is mainly theoretical, so the softwatre only includes the code for the computational experiments of the convergence rate.
+A code with all experiment visualisation `is here <https://github.com/intsystems/Sign-for-L0L1-smooth-opt/blob/master/code/main.ipynb>`_.
